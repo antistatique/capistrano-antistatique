@@ -9,6 +9,16 @@ namespace :styleguide do
     set :styleguide_repo, ''
   end
 
+  desc "Build assets locally from current repo"
+  task :build_local do
+    run_locally do
+      execute 'yarn', '--check-files', '--no-progress', '--silent'
+
+      # Build the styleguide localy
+      execute 'yarn', 'build', '--production'
+    end
+  end
+  
   desc "Build assets locally from NPM"
   task :build_from_npm do
     run_locally do
