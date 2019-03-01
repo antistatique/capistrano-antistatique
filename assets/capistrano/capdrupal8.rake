@@ -135,7 +135,7 @@ namespace :drupal do
   task :set_permissions do
     on roles(:app) do
       within release_path.join(fetch(:app_path)) do
-        execute :chmod, '-R', '550', '.'
+        execute :chmod, '-R', '555', '.'
 
         # Remove execution for files, keep execution on folder.
         execute 'find', './ -type f -executable -exec chmod -x {} \;'
@@ -149,7 +149,11 @@ namespace :drupal do
   task :set_shared_permissions do
     on roles(:app) do
       within shared_path do
-        execute :chmod, '-R', '770', "#{fetch(:app_path)}/sites/default/files"
+        execute :chmod, '-R', '775', './sites/default/files'
+
+        # Remove execution for files, keep execution on folder.
+        execute 'find', './sites/default/files -type f -executable -exec chmod -x {} \;'
+        execute 'find', './sites/default/files -type d -exec chmod +sx {} \;'
       end
     end
   end
