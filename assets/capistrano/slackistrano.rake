@@ -74,10 +74,15 @@ module Slackistrano
       }
     end
 
-    # Override the deployer helper to pull the full name from the password file.
+    # Override the deployer helper to pull commiter name on CI or
+    # the full name from the password file on local environment.
+    #
     # See https://github.com/phallstrom/slackistrano/blob/master/lib/slackistrano/messaging/helpers.rb
     def deployer
-      Etc.getpwnam(ENV['USER']).gecos
+      ENV['CI_COMMITTER_NAME'] || Etc.getpwnam(ENV['USER'] || ENV['USERNAME']).gecos
+    rescue
+      default = ENV['USER'] || ENV['USERNAME']
+      fetch(:local_user, default)
     end
   end
 end
