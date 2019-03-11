@@ -113,10 +113,13 @@ namespace :drupal do
     desc 'Import configuration to active stage'
     task :import do
       on roles(:app) do
+        try = 0
         config_path = release_path.join('config').join('d8').join(fetch(:config_name))
-        puts config_path
         within release_path.join(fetch(:app_path)) do
           execute :drush, "config-import -y --source=#{config_path}"
+        rescue
+          try += 1
+          try < 5 ? retry : raise
         end
       end
     end
