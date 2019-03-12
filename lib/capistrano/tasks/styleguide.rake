@@ -18,7 +18,7 @@ namespace :styleguide do
       execute 'yarn', 'build', '--production'
     end
   end
-  
+
   desc "Build assets locally from NPM"
   task :build_from_npm do
     run_locally do
