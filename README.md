@@ -78,8 +78,9 @@ require 'capistrano/antistatique'
 require 'capdrupal'
 
 # Drupal-Antistatique specific Tasks.
-require 'capistrano/antistatique/d8-ext/loco'
-require 'capistrano/antistatique/d8-ext/sapi'
+# Always load Drupal add-on after capdrupal.
+require 'capistrano/antistatique/drupal/loco'
+require 'capistrano/antistatique/drupal/sapi'
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined.
 Dir.glob('config/capistrano/tasks/*.rake').each { |r| import r }
