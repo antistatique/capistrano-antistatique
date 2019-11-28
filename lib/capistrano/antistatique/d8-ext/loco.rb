@@ -1,0 +1,1 @@
+load File.expand_path('../../../tasks/d8-ext/loco.rake', __FILE__)
