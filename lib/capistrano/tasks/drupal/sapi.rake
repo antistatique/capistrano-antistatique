@@ -9,7 +9,7 @@ namespace 'drupal:sapi' do
   task :clear do
     on roles(:app) do
       within release_path.join(fetch(:app_path)) do
-        execute :drush, "sapi-c"
+        execute :drush, 'sapi-c'
       end
     end
   end
@@ -18,7 +18,7 @@ namespace 'drupal:sapi' do
   task :index do
     on roles(:app) do
       within release_path.join(fetch(:app_path)) do
-        execute :drush, "sapi-i"
+        execute :drush, 'sapi-i'
       end
     end
   end

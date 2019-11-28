@@ -11,7 +11,7 @@ namespace :load do
       po_file: './config/languages/loco-en.po',
     }
     set :loco_pull, {
-      languages: ['fr', 'de', 'en'],
+      languages: ['en'],
       status: 'translated',
     }
   end
