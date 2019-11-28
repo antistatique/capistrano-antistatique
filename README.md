@@ -20,9 +20,73 @@ Or install it yourself as:
 
     $ gem install capistrano-antistatique
 
-## Usage
+Then you will need to install some extra dependency according your platform
 
-TODO: Write usage instructions here
+    - Drupal
+
+    ```ruby
+    gem 'capdrupal'
+    ```
+
+    - Symfony
+
+    ```ruby
+    gem 'capistrano/symfony'
+    ```
+
+## Configuration
+
+First, go to your project directory and launch Capistrano.
+
+```shell
+cd path/to/your/drupal/project/
+cap install
+```
+
+Capistrano will create the following skeleton
+
+```
+.
+├── Capfile
+├── config
+│   └── deploy.rb
+│   └── deploy
+│       └── production.rb
+│       └── staging.rb
+├── lib
+│   └── capistrano
+│        └── tasks
+
+```
+
+Create two files `Capfile` and `config/deploy.rb`. Open `Capfile` and set the depencies.
+
+```ruby
+# Load DSL and set up stages.
+require 'capistrano/setup'
+
+# Include default deployment tasks.
+require 'capistrano/deploy'
+
+# Composer is needed to install drush on the server.
+require 'capistrano/composer'
+
+# Antistatique Tasks.
+require 'capistrano/antistatique'
+
+# Drupal Tasks.
+require 'capdrupal'
+
+# Drupal-Antistatique specific Tasks.
+# Always load Drupal add-on after capdrupal.
+require 'capistrano/antistatique/drupal/loco'
+require 'capistrano/antistatique/drupal/sapi'
+
+# Load custom tasks from `lib/capistrano/tasks` if you have any defined.
+Dir.glob('config/capistrano/tasks/*.rake').each { |r| import r }
+```
+
+Then, go to `config/deploy.rb`, `config/deploy/staging.rb`, `conconfig/deploy/production.rb` to set the parameters of your project.
 
 ## Development
 
@@ -32,7 +96,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/capistrano-antistatique.
+Bug reports and pull requests are welcome on GitHub at https://github.com/antistatique/capistrano-antistatique.
 
 ## License
 
