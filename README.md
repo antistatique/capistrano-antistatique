@@ -81,6 +81,7 @@ require 'capdrupal'
 # Always load Drupal add-on after capdrupal.
 require 'capistrano/antistatique/drupal/loco'
 require 'capistrano/antistatique/drupal/sapi'
+require 'capistrano/antistatique/drupal/newrelic'
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined.
 Dir.glob('config/capistrano/tasks/*.rake').each { |r| import r }
