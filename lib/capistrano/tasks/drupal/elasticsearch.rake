@@ -5,7 +5,7 @@
 # @see https://www.drupal.org/project/elasticsearch_helper
 ##
 namespace 'drupal:elasticsearch' do
-  desc 'Clears one or all search indexes and marks them for reindexing.'
+  desc 'Clears all search indexes and marks them for reindexing.'
   task :clear do
     on roles(:app) do
       within release_path.join(fetch(:app_path)) do
