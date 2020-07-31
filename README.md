@@ -79,6 +79,7 @@ require 'capdrupal'
 
 # Drupal-Antistatique specific Tasks.
 # Always load Drupal add-on after capdrupal.
+require 'capistrano/antistatique/drupal/bootstrap'
 require 'capistrano/antistatique/drupal/loco'
 require 'capistrano/antistatique/drupal/sapi'
 require 'capistrano/antistatique/drupal/newrelic'
