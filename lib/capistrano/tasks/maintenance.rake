@@ -11,7 +11,7 @@ end
 namespace :maintenance do
   desc "Check required files and directories exist"
   task :check do
-    on roles(:web) :all do
+    on roles(:web) do
       unless test "[ -d #{current_path}/#{fetch(:maintenance_app_path)} ]"
           msg = "Configured Maintenance App Path : #{current_path}/#{fetch(:maintenance_app_path)} is not a directory."
           error msg
