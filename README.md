@@ -74,6 +74,9 @@ require 'capistrano/composer'
 # Antistatique Tasks.
 require 'capistrano/antistatique'
 
+# Antistatique Maintenance Tasks
+require 'capistrano/antistatique/maintenance'
+
 # Drupal Tasks.
 require 'capdrupal'
 
