@@ -31,5 +31,3 @@ namespace :wordpress do
     end
   end
 end
-
-after "deploy:updated", "wordpress:plugin:activate"
