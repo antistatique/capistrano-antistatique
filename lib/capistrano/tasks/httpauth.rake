@@ -6,7 +6,6 @@
 ##
 namespace :load do
   task :defaults do
-    set :app_app_path, fetch(:app_path, "drupal")
     set :http_auth_users, [
        [ "user", "hashedpassword" ]
     ]
