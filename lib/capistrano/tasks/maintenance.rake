@@ -30,16 +30,23 @@ namespace :maintenance do
   task :on do
     on roles(:web) do
       src = "#{fetch(:maintenance_template_path)}/#{fetch(:maintenance_basename)}"
-      dest = current_path.join(fetch(:maintenance_app_path), fetch(:maintenance_basename))
-      execute :cp, src, dest
+      dest = current_path.join(fetch(:maintenance_app_path))
+      if test "[ -d '#{dest}' ]"
+        rights = capture(:stat,  '-c %a', current_path.join(fetch(:maintenance_app_path)))
+        execute :chmod, 'u+w,g+w', dest
+        execute :cp, src, dest
+        execute :chmod, rights, dest
+      end
     end
   end
 
   desc "Disable the maintenance mode"
   task :off do
     on roles(:web) do
-      dest = current_path.join(fetch(:maintenance_app_path), fetch(:maintenance_basename))
-      execute :rm, dest
+      dest = current_path.join(fetch(:maintenance_app_path))
+      rights = capture(:stat,  '-c %a', current_path.join(fetch(:maintenance_app_path)))
+      execute :rm, '-f', dest.join(fetch(:maintenance_basename))
+      execute :chmod, rights, dest
     end
   end
 
