@@ -23,7 +23,7 @@ namespace :styleguide do
   task :build_from_npm do
     run_locally do
       # Delete existing styleguide
-      if File.exists?(fetch(:styleguide_path))
+      if File.exist?(fetch(:styleguide_path))
         FileUtils.rm_rf(fetch(:styleguide_path))
       end
 
@@ -40,7 +40,7 @@ namespace :styleguide do
   task :build_from_git do
     run_locally do
       # Delete existing styleguide
-      if File.exists?(fetch(:styleguide_path))
+      if File.exist?(fetch(:styleguide_path))
         FileUtils.rm_rf(fetch(:styleguide_path))
       end
 
@@ -49,7 +49,7 @@ namespace :styleguide do
       execute 'yarn', 'install', '--no-progress', '--silent'
 
       # Delete existing styleguide downloaded by npm
-      if File.exists?(fetch(:styleguide_path))
+      if File.exist?(fetch(:styleguide_path))
         FileUtils.rm_rf(fetch(:styleguide_path))
       end
 

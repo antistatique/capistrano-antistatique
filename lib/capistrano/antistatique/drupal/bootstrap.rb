@@ -26,7 +26,7 @@ namespace :deploy do
       ask(:site_name, "Site name")
 
       on roles(:app) do
-        if File.exists?(current_path) && !File.symlink?(current_path)
+        if File.exist?(current_path) && !File.symlink?(current_path)
           info "Recursively delete the current directory #{current_path} to prevent fail on symlink creation."
           execute :rm, '-rf', current_path
         end
