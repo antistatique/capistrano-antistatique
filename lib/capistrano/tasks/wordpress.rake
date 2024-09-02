@@ -64,4 +64,20 @@ namespace :wordpress do
       end
     end
   end
+
+  namespace :files do
+    desc "Download WordPress uploads files (from remote to local)"
+    task :download do
+      run_locally do
+        on release_roles :app do |server|
+          ask(:answer, "Do you really want to download uploads files from the remote server to your local machine? Nothings will be deleted but files can be ovewrite. (y/N)");
+          if fetch(:answer) == 'y' then
+            remote_files_dir = "#{shared_path}/#{(fetch(:app_path))}/app/uploads/"
+            local_files_dir = "#{(fetch(:app_path))}/app/uploads/"
+            system("rsync --recursive --times --rsh=ssh --human-readable --progress #{server.user}@#{server.hostname}:#{remote_files_dir} #{local_files_dir}")
+          end
+        end
+      end
+    end
+  end
 end
