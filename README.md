@@ -88,6 +88,9 @@ require 'capistrano/antistatique/drupal/sapi'
 require 'capistrano/antistatique/drupal/newrelic'
 require 'capistrano/antistatique/drupal/elasticsearch'
 
+# Wordpress Tasks.
+require 'capistrano/antistatique/wordpress/database'
+
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined.
 Dir.glob('config/capistrano/tasks/*.rake').each { |r| import r }
 ```
