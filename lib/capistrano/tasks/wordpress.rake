@@ -77,8 +77,9 @@ namespace :wordpress do
         info "\e[32mDatabase downloaded locally in #{local_sql_file}\e[0m"
         info "Execute the following command to import the database in the Docker dev environment:"
         info ""
-        info "\e[33m  docker compose exec dev wp db create\e[0m"
-        info "\e[33m  gunzip -c #{local_sql_file} | docker compose exec -T dev wp db import -\e[0m"
+        info "\e[33m  gunzip #{local_sql_file}\e[0m"
+        info "\e[33m  docker compose cp #{local_sql_file} dev:/var/backups/db-dump.sql\e[0m"
+        info "\e[33m  docker compose exec docker-as-wordpress db-restore\e[0m"
         info ""
       end
     end

@@ -87,6 +87,7 @@ require 'capistrano/antistatique/drupal/loco'
 require 'capistrano/antistatique/drupal/sapi'
 require 'capistrano/antistatique/drupal/newrelic'
 require 'capistrano/antistatique/drupal/elasticsearch'
+require 'capistrano/antistatique/drupal/database'
 
 # Wordpress Tasks.
 require 'capistrano/antistatique/wordpress'
