@@ -31,6 +31,25 @@ namespace :wordpress do
     end
   end
 
+  namespace :plugins do
+    namespace :blocks do
+      desc "Build plugins blocks locally"
+      task :build do
+        on roles(:app) do
+          run_locally do
+            file_paths = ENV['CHANGED_PATHS'].nil? ? [] : ENV['CHANGED_PATHS'].split(' ')
+            custom_plugins_path = fetch(:custom_plugins_path, 'web/app/custom-plugins').gsub(%r{^/|/$}, '')
+
+            find_plugins_directories(custom_plugins_path, file_paths).each do |dir|
+              info "Build plugin at #{dir}"
+              execute "cd #{dir} && bun install --silent && bun run build"
+            end
+          end
+        end
+      end
+    end
+  end
+
   namespace :database do
     desc "Download database locally with datetime in filename"
     task :download_locally do
