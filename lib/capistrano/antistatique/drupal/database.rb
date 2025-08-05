@@ -1,1 +1,1 @@
-load File.expand_path('../../../tasks/drupal/db.rake', __FILE__)
+load File.expand_path('../../../tasks/drupal/database.rake', __FILE__)
