@@ -14,7 +14,7 @@ namespace :drupal do
 
         # run the SQL database export with drush
         within release_path do
-          execute :drush, "sql:dump --structure-tables-list=#{fetch(:drupal_database_dump_exclude, 'cache,cache_*,search_index,watchdog')} | grep -v DEFINER | gzip > #{remote_sql_file}"
+          execute :drush, "sql:dump --structure-tables-list=#{fetch(:drupal_database_dump_exclude, 'cache,cache_*,search_index,watchdog')} #{fetch(:drupal_database_dump_extra_params, '')} | grep -v DEFINER | gzip > #{remote_sql_file}"
         end
 
         download! remote_sql_file, local_sql_file

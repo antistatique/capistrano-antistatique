@@ -71,9 +71,6 @@ require 'capistrano/deploy'
 # Composer is needed to install drush on the server.
 require 'capistrano/composer'
 
-# Antistatique Tasks.
-require 'capistrano/antistatique'
-
 # Antistatique Maintenance Tasks
 require 'capistrano/antistatique/maintenance'
 
@@ -83,6 +80,7 @@ require 'capdrupal'
 # Drupal-Antistatique specific Tasks.
 # Always load Drupal add-on after capdrupal.
 require 'capistrano/antistatique/drupal/bootstrap'
+require 'capistrano/antistatique/drupal/database'
 require 'capistrano/antistatique/drupal/loco'
 require 'capistrano/antistatique/drupal/sapi'
 require 'capistrano/antistatique/drupal/newrelic'
