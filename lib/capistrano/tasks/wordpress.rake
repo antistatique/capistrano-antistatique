@@ -57,7 +57,7 @@ namespace :wordpress do
         datetime = Time.now.strftime("%Y%m%d_%H%M%S")
         remote_sql_file = "#{fetch(:tmp_dir)}/wordpress_#{datetime}.sql.gz"
         local_sql_gz_file = "dump/#{fetch(:stage)}_wordpress_#{host.hostname}_#{datetime}.sql.gz"
-        local_sql_file = "dump/#{fetch(:stage)}_wordpress_#{host.hostname}_#{datetime}.sql.gz"
+        local_sql_file = "dump/#{fetch(:stage)}_wordpress_#{host.hostname}_#{datetime}.sql"
 
         # Prepare the destination dump dir.
         run_locally do
