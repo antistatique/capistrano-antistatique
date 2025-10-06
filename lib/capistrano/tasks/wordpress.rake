@@ -56,6 +56,7 @@ namespace :wordpress do
       on roles(:db) do |host|
         datetime = Time.now.strftime("%Y%m%d_%H%M%S")
         remote_sql_file = "#{fetch(:tmp_dir)}/wordpress_#{datetime}.sql.gz"
+        local_sql_gz_file = "dump/#{fetch(:stage)}_wordpress_#{host.hostname}_#{datetime}.sql.gz"
         local_sql_file = "dump/#{fetch(:stage)}_wordpress_#{host.hostname}_#{datetime}.sql.gz"
 
         # Prepare the destination dump dir.
@@ -68,18 +69,18 @@ namespace :wordpress do
           execute :wp, "db export - | gzip > #{remote_sql_file}"
         end
 
-        download! remote_sql_file, local_sql_file
+        download! remote_sql_file, local_sql_gz_file
 
         # Cleanup.
         execute "rm #{remote_sql_file}"
 
         info ""
-        info "\e[32mDatabase downloaded locally in #{local_sql_file}\e[0m"
+        info "\e[32mDatabase downloaded locally in #{local_sql_gz_file}\e[0m"
         info "Execute the following command to import the database in the Docker dev environment:"
         info ""
-        info "\e[33m  gunzip #{local_sql_file}\e[0m"
+        info "\e[33m  gunzip #{local_sql_gz_file}\e[0m"
         info "\e[33m  docker compose cp #{local_sql_file} dev:/var/backups/db-dump.sql\e[0m"
-        info "\e[33m  docker compose exec docker-as-wordpress db-restore\e[0m"
+        info "\e[33m  docker compose exec dev docker-as-wordpress db-restore\e[0m"
         info ""
       end
     end
