@@ -105,10 +105,10 @@ bundle exec cap staging wordpress:i18n:download
 bundle exec cap staging wordpress:i18n:upload
 ```
 
-By default, translation files are synced from `#{fetch(:app_path)}/app/languages/`. Override that in `config/deploy.rb` if your project uses another directory:
+By default, `wordpress_languages_path` is set to `app/languages`, so the tasks sync `#{fetch(:app_path)}/#{fetch(:wordpress_languages_path)}/`. Override that in `config/deploy.rb` if your project uses another directory relative to `app_path`:
 
 ```ruby
-set :wordpress_languages_path, 'web/app/languages'
+set :wordpress_languages_path, 'app/languages'
 ```
 
 ## Development
