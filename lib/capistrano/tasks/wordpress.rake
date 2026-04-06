@@ -1,4 +1,10 @@
 namespace :wordpress do
+  namespace :load do
+    task :defaults do
+      set :wordpress_languages_path, 'app/languages'
+    end
+  end
+
  
   desc "Install WP cli"
   task :install_executable do
@@ -96,6 +102,46 @@ namespace :wordpress do
             local_files_dir = "#{(fetch(:app_path))}/app/uploads/"
             system("rsync --recursive --times --rsh=ssh --human-readable --progress #{server.user}@#{server.hostname}:#{remote_files_dir} #{local_files_dir}")
           end
+        end
+      end
+    end
+  end
+
+  namespace :i18n do
+    desc "Download WordPress translation files from the remote server"
+    task :download do
+      run_locally do
+        on release_roles :app do |server|
+          ask(:answer, 'Do you really want to download translation files from the remote server to your local machine? Existing files may be overwritten. (y/N)')
+          next unless fetch(:answer) == 'y'
+
+          languages_path = fetch(:wordpress_languages_path).gsub(%r{^/|/$}, '')
+          remote_files_dir = "#{shared_path}/#{fetch(:app_path)}/#{languages_path}/"
+          local_files_dir = "#{fetch(:app_path)}/#{languages_path}/"
+
+          info local_files_dir
+          info remote_files_dir
+
+          system("rsync -v --recursive --times --rsh=ssh --human-readable --progress --exclude='.*' --exclude='.po~' --exclude='.mo~' #{server.user}@#{server.hostname}:#{remote_files_dir} #{local_files_dir}")
+        end
+      end
+    end
+
+    desc "Upload WordPress translation files from the local machine"
+    task :upload do
+      run_locally do
+        on release_roles :app do |server|
+          ask(:answer, 'Do you really want to upload translation files from your local machine to the remote server? Remote files will be overwritten. (y/N)')
+          next unless fetch(:answer) == 'y'
+
+          languages_path = fetch(:wordpress_languages_path).gsub(%r{^/|/$}, '')
+          remote_files_dir = "#{shared_path}/#{fetch(:app_path)}/#{languages_path}/"
+          local_files_dir = "#{fetch(:app_path)}/#{languages_path}/"
+
+          info local_files_dir
+          info remote_files_dir
+
+          system("rsync -v --recursive --times --rsh=ssh --human-readable --progress --exclude='.*' --exclude='.po~' --exclude='.mo~' #{local_files_dir} #{server.user}@#{server.hostname}:#{remote_files_dir}")
         end
       end
     end

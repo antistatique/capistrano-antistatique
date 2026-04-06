@@ -96,6 +96,21 @@ Dir.glob('config/capistrano/tasks/*.rake').each { |r| import r }
 
 Then, go to `config/deploy.rb`, `config/deploy/staging.rb`, `conconfig/deploy/production.rb` to set the parameters of your project.
 
+### WordPress translation sync
+
+The shared WordPress tasks include translation file sync commands:
+
+```shell
+bundle exec cap staging wordpress:i18n:download
+bundle exec cap staging wordpress:i18n:upload
+```
+
+By default, translation files are synced from `#{fetch(:app_path)}/app/languages/`. Override that in `config/deploy.rb` if your project uses another directory:
+
+```ruby
+set :wordpress_languages_path, 'web/app/languages'
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
