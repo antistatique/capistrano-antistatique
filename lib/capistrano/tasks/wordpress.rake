@@ -1,9 +1,10 @@
-namespace :wordpress do
-  namespace :load do
-    task :defaults do
-      set :wordpress_languages_path, 'app/languages'
-    end
+namespace :load do
+  task :defaults do
+    set :wordpress_languages_path, 'app/languages'
   end
+end
+
+namespace :wordpress do
 
  
   desc "Install WP cli"
@@ -116,7 +117,7 @@ namespace :wordpress do
           ask(:answer, 'Do you really want to download translation files from the remote server to your local machine? Existing files may be overwritten. (y/N)')
           next unless fetch(:answer) == 'y'
 
-          languages_path = fetch(:wordpress_languages_path).gsub(%r{^/|/$}, '')
+          languages_path = fetch(:wordpress_languages_path, 'app/languages').gsub(%r{^/|/$}, '')
           remote_files_dir = "#{shared_path}/#{fetch(:app_path)}/#{languages_path}/"
           local_files_dir = "#{fetch(:app_path)}/#{languages_path}/"
 
@@ -135,7 +136,7 @@ namespace :wordpress do
           ask(:answer, 'Do you really want to upload translation files from your local machine to the remote server? Remote files will be overwritten. (y/N)')
           next unless fetch(:answer) == 'y'
 
-          languages_path = fetch(:wordpress_languages_path).gsub(%r{^/|/$}, '')
+          languages_path = fetch(:wordpress_languages_path, 'app/languages').gsub(%r{^/|/$}, '')
           remote_files_dir = "#{shared_path}/#{fetch(:app_path)}/#{languages_path}/"
           local_files_dir = "#{fetch(:app_path)}/#{languages_path}/"
 
