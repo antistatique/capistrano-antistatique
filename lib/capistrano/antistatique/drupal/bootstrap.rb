@@ -23,6 +23,8 @@ namespace :deploy do
       ask(:drupal_admin_username, 'admin')
       ask(:drupal_admin_passowrd, 'admin', echo: false)
       ask(:drupal_admin_email, default['mail'])
+      ask(:drupal_admin_langcode, 'en')
+      ask(:drupal_profile, 'minimal')
       ask(:site_name, "Site name")
 
       on roles(:app) do
@@ -32,7 +34,7 @@ namespace :deploy do
         end
 
         within release_path.join(fetch(:app_path)) do
-          execute :drush, 'si standard -y',
+          execute :drush, "si #{fetch(:drupal_profile)} -y",
             %(--site-name="#{fetch(:drupal_site_name)}"),
             %(--account-name="#{fetch(:drupal_admin_username)}"),
             %(--account-pass="#{fetch(:drupal_admin_passowrd)}"),
@@ -40,11 +42,13 @@ namespace :deploy do
 
           info 'Fix Drupal installation'
           execute :drush, %(config-set system.site uuid "#{fetch(:drupal_uuid)}" -y)
-          execute :drush, %(ev '\Drupal::entityTypeManager()->getStorage("shortcut_set")->load("default")->delete();')
+          execute :drush, %(ev '\Drupal::entityTypeManager()->getStorage("shortcut_set")->load("default")->delete();'), raise_on_non_zero_exit: false
           execute :drush, %(ev '
             $user = user_load_by_name("#{fetch(:drupal_admin_username)}");
-            $user->set("preferred_admin_langcode", "en");
-            $user->save();
+            if ($user && ($langcode = "#{fetch(:drupal_admin_langcode)}")) {
+              $user->set("preferred_admin_langcode", $langcode);
+              $user->save();
+            }
           ')
         end
       end
